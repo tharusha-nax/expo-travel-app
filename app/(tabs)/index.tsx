@@ -45,7 +45,7 @@ const Page = () => {
                 shadowOffset: { width: 2, height: 4 },
                 shadowOpacity: 0.2,
                 shadowRadius: 3,
-                // elevation: 5
+                elevation: 2.5
               }}
             >
               <Ionicons name="notifications" size={20} color={Colors.black} />
@@ -70,9 +70,9 @@ const Page = () => {
             <Ionicons name="options" size={28} color={Colors.white} />
           </TouchableOpacity>
         </View>
-      </View>
 
-      <CategoryButtons />
+        <CategoryButtons />
+      </View>
     </>
   );
 };
@@ -81,6 +81,7 @@ export default Page;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingHorizontal: 20,
     backgroundColor: Colors.bgColor,
   },
