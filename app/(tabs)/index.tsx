@@ -6,16 +6,23 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Stack } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { SearchBar } from "react-native-screens";
 import CategoryButtons from "@/components/CategoryButtons";
+import Listings from "@/components/Listings";
 
 const Page = () => {
   const headerHeight = useHeaderHeight();
+  const [category, setCategory] = useState("All");
+
+  const onCatChange = (category: string) => {
+    console.log("Category", category);
+    setCategory(category);
+  };
 
   return (
     <>
@@ -45,7 +52,7 @@ const Page = () => {
                 shadowOffset: { width: 2, height: 4 },
                 shadowOpacity: 0.2,
                 shadowRadius: 3,
-                elevation: 2.5
+                elevation: 2.5,
               }}
             >
               <Ionicons name="notifications" size={20} color={Colors.black} />
@@ -71,7 +78,9 @@ const Page = () => {
           </TouchableOpacity>
         </View>
 
-        <CategoryButtons />
+        <CategoryButtons onCategoryChanged={onCatChange} />
+
+        <Listings />
       </View>
     </>
   );
