@@ -14,6 +14,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import { SearchBar } from "react-native-screens";
 import CategoryButtons from "@/components/CategoryButtons";
 import Listings from "@/components/Listings";
+import listingData from "@/data/destinations.json";
 
 const Page = () => {
   const headerHeight = useHeaderHeight();
@@ -80,7 +81,7 @@ const Page = () => {
 
         <CategoryButtons onCategoryChanged={onCatChange} />
 
-        <Listings />
+        <Listings listings={listingData} />
       </View>
     </>
   );
