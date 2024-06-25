@@ -5,12 +5,20 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Colors from "@/constants/Colors";
 import destinationCategories from "@/data/categories";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function CategoryButtons() {
+  const itemRef = useRef<TouchableOpacity[] | null[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleSelectCategory = (index: number) => {
+    setActiveIndex(index);
+    // console.log(index);
+  };
+
   return (
     <View>
       <Text style={styles.title}>Categories</Text>
@@ -25,16 +33,23 @@ export default function CategoryButtons() {
       >
         {destinationCategories.map((item, index) => (
           <TouchableOpacity
-            
-            onPress={() => {}}
-            style={styles.categoryBtn}
+            key={index}
+            ref={(el) => itemRef.current[index] == el}
+            onPress={() => handleSelectCategory(index)}
+            style={
+              activeIndex == index
+                ? styles.categoryBtnActive
+                : styles.categoryBtn
+            }
           >
             <MaterialCommunityIcons
               name={item.iconName as any}
               size={20}
-              color={Colors.black}
+              color={activeIndex == index ? Colors.white : Colors.black}
             />
-            <Text style={styles.categoryBtnTxt}>{item.title}</Text>
+            <Text style={activeIndex == index
+                ? styles.categoryBtnTxtActive
+                :styles.categoryBtnTxt}>{item.title}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -61,8 +76,25 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 3,
   },
+  categoryBtnActive: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: Colors.primaryColor,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 10,
+    shadowColor: "#333333",
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
   categoryBtnTxt: {
     marginLeft: 5,
     color: Colors.black,
-  },
+    },
+    categoryBtnTxtActive: {
+      marginLeft: 5,
+    color: Colors.white,
+  }
 });
