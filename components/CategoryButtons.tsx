@@ -11,20 +11,28 @@ import destinationCategories from "@/data/categories";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function CategoryButtons() {
+  const scrollRef = useRef<ScrollView>(null);
   const itemRef = useRef<TouchableOpacity[] | null[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleSelectCategory = (index: number) => {
+    const selected = itemRef.current[index];
+
     setActiveIndex(index);
     // console.log(index);
+
+    selected?.measure((x) => {
+      scrollRef.current?.scrollTo({ x: x, y: 0, animated: true });
+    });
   };
 
   return (
     <View>
       <Text style={styles.title}>Categories</Text>
       <ScrollView
-        showsHorizontalScrollIndicator={false}
+        ref={scrollRef}
         horizontal
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           gap: 20,
           paddingVertical: 10,
@@ -34,7 +42,7 @@ export default function CategoryButtons() {
         {destinationCategories.map((item, index) => (
           <TouchableOpacity
             key={index}
-            ref={(el) => itemRef.current[index] == el}
+            ref={(el) => (itemRef.current[index] = el)}
             onPress={() => handleSelectCategory(index)}
             style={
               activeIndex == index
@@ -47,9 +55,15 @@ export default function CategoryButtons() {
               size={20}
               color={activeIndex == index ? Colors.white : Colors.black}
             />
-            <Text style={activeIndex == index
-                ? styles.categoryBtnTxtActive
-                :styles.categoryBtnTxt}>{item.title}</Text>
+            <Text
+              style={
+                activeIndex == index
+                  ? styles.categoryBtnTxtActive
+                  : styles.categoryBtnTxt
+              }
+            >
+              {item.title}
+            </Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -92,9 +106,9 @@ const styles = StyleSheet.create({
   categoryBtnTxt: {
     marginLeft: 5,
     color: Colors.black,
-    },
-    categoryBtnTxtActive: {
-      marginLeft: 5,
+  },
+  categoryBtnTxtActive: {
+    marginLeft: 5,
     color: Colors.white,
-  }
+  },
 });
