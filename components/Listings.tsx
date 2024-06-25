@@ -22,7 +22,7 @@ const Listings = ({ listings, category }: Props) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log("Update Lising");
+    // console.log("Update Lising");
     setLoading(true);
 
     setTimeout(() => {
