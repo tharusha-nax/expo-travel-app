@@ -1,5 +1,6 @@
 import {
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -15,6 +16,8 @@ import { SearchBar } from "react-native-screens";
 import CategoryButtons from "@/components/CategoryButtons";
 import Listings from "@/components/Listings";
 import listingData from "@/data/destinations.json";
+import GroupListings from "@/components/GroupListings";
+import groupData from '@/data/groups.json'
 
 const Page = () => {
   const headerHeight = useHeaderHeight();
@@ -62,6 +65,7 @@ const Page = () => {
         }}
       />
       <View style={[styles.container, { paddingTop: headerHeight }]}>
+        <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.headingText}>Explore The Beautiful World!</Text>
 
         <View style={styles.searchSectionWrapper}>
@@ -81,7 +85,10 @@ const Page = () => {
 
         <CategoryButtons onCategoryChanged={onCatChange} />
 
-        <Listings listings={listingData} />
+        <Listings listings={listingData} category={category} />
+
+          <GroupListings listings={groupData} />
+          </ScrollView>
       </View>
     </>
   );
