@@ -19,6 +19,13 @@ import {
   Ionicons,
 } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
+// import { Animated } from "react-native";
+import Animated, {
+  interpolate,
+  useAnimatedRef,
+  useAnimatedStyle,
+  useScrollViewOffset,
+} from "react-native-reanimated";
 
 const { width } = Dimensions.get("window");
 const IMG_HEIGHT = 300;
@@ -30,6 +37,29 @@ const ListingDetails = () => {
   );
 
   const router = useRouter();
+
+  const scrollRef = useAnimatedRef<Animated.ScrollView>();
+  const scrollOffset = useScrollViewOffset(scrollRef);
+  const imageAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: interpolate(
+            scrollOffset.value,
+            [-IMG_HEIGHT, 0, IMG_HEIGHT],
+            [-IMG_HEIGHT / 2, 0, IMG_HEIGHT * 0.75]
+          ),
+        },
+        {
+          scale: interpolate(
+            scrollOffset.value,
+            [-IMG_HEIGHT, 0, IMG_HEIGHT],
+            [2, 1, 1]
+          ),
+        },
+      ],
+    };
+  });
 
   return (
     <>
@@ -82,8 +112,14 @@ const ListingDetails = () => {
         }}
       />
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={{paddingBottom: 150}}>
-          <Image source={{ uri: listing.image }} style={styles.image} />
+        <Animated.ScrollView
+          ref={scrollRef}
+          contentContainerStyle={{ paddingBottom: 150 }}
+        >
+          <Animated.Image
+            source={{ uri: listing.image }}
+            style={[styles.image, imageAnimatedStyle]}
+          />
           <View style={styles.contentWrapper}>
             <Text style={styles.listingName}> {listing.name}</Text>
             <View style={styles.listingLocationWrapper}>
@@ -133,7 +169,7 @@ const ListingDetails = () => {
 
             <Text style={styles.listingDetails}>{listing.description}</Text>
           </View>
-        </ScrollView>
+        </Animated.ScrollView>
       </View>
 
       <View style={styles.footer}>
@@ -164,6 +200,7 @@ const styles = StyleSheet.create({
   },
   contentWrapper: {
     padding: 20,
+    backgroundColor: Colors.white,
   },
   listingName: {
     fontSize: 24,
