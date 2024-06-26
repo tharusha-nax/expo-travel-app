@@ -21,6 +21,7 @@ import {
 import Colors from "@/constants/Colors";
 // import { Animated } from "react-native";
 import Animated, {
+  SlideInDown,
   interpolate,
   useAnimatedRef,
   useAnimatedStyle,
@@ -172,7 +173,7 @@ const ListingDetails = () => {
         </Animated.ScrollView>
       </View>
 
-      <View style={styles.footer}>
+      <Animated.View style={styles.footer} entering={SlideInDown.delay(200)}>
         <TouchableOpacity
           onPress={() => {}}
           style={[styles.footerBtn, styles.footerBookBtn]}
@@ -182,7 +183,7 @@ const ListingDetails = () => {
         <TouchableOpacity onPress={() => {}} style={styles.footerBtn}>
           <Text style={styles.footerBtnTxt}>${listing.price}</Text>
         </TouchableOpacity>
-      </View>
+      </Animated.View>
     </>
   );
 };
